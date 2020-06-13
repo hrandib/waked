@@ -29,15 +29,16 @@ using std::string_view;
 
 constexpr string_view CONFIG_PATH = ".config/waked/conf.ini";
 
-
 class Config
 {
 private:
     class IniChar;
     std::unique_ptr<IniChar> ini_;
+    const auto& getSerial();
 public:
     Config(std::string_view configPath = CONFIG_PATH);
     std::string getTtyPath();
+    std::string getBaudRate();
     ~Config();
 };
 

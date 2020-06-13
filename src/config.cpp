@@ -66,9 +66,20 @@ Config::Config(std::string_view configPath)
     }
 }
 
+const auto& Config::getSerial()
+{
+    return ini_->sections["Serial"];
+}
+
 std::string Config::getTtyPath()
 {
-    return ini_->sections[""]["tty"];
+    return getSerial().at("tty");
 }
+
+std::string Config::getBaudRate()
+{
+    return getSerial().at("baud");
+}
+
 
 Config::~Config() = default;

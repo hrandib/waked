@@ -5,7 +5,7 @@
 int main(int argc, const char* argv[]) {
 //  daemonize("waked");
     Config config;
-    std::cout << config.getTtyPath() << std::endl;
+    std::cout << config.getTtyPath() << " " << config.getBaudRate() << std::endl;
 //    while(true) {
 //        syslog(LOG_NOTICE, "First daemon started.");
 //        sleep(30);
