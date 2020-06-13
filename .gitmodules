@@ -1,0 +1,3 @@
+[submodule "pc_wake_lib"]
+	path = pc_wake_lib
+	url = git@github.com:hrandib/pc_wake_lib.git
