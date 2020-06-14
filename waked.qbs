@@ -9,6 +9,9 @@ Project {
 CppApplication {
     name: "waked"
 
+    Depends {
+        name: "wake"
+    }
 
     qbs.architecture: "x86_64"
     cpp.optimization: "small"

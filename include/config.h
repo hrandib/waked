@@ -38,7 +38,7 @@ private:
 public:
     Config(std::string_view configPath = CONFIG_PATH);
     std::string getTtyPath();
-    std::string getBaudRate();
+    uint32_t getBaudRate();
     ~Config();
 };
 

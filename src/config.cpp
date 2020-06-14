@@ -75,9 +75,13 @@ std::string Config::getTtyPath()
     return getSerial().at("tty");
 }
 
-std::string Config::getBaudRate()
+uint32_t Config::getBaudRate()
 {
-    return getSerial().at("baud");
+    uint32_t baud = 9600;
+    if(!inipp::extract(getSerial().at("baud"), baud)) {
+        std::cerr << "No valid value for baud, defaults to 9600\r\n";
+    }
+    return baud;
 }
 
 

@@ -2,14 +2,18 @@
 #include "config.h"
 #include <iostream>
 
+#include "serialport.h"
+#include "wsp32.h"
+
+
 int main(int argc, const char* argv[]) {
 //  daemonize("waked");
     Config config;
     std::cout << config.getTtyPath() << " " << config.getBaudRate() << std::endl;
-//    while(true) {
-//        syslog(LOG_NOTICE, "First daemon started.");
-//        sleep(30);
-//        break;
-//    }
+    SerialPort port{config.getTtyPath(), config.getBaudRate()};
+    Wk::Wake wake{port};
+    if(wake.OpenConnection()) {
+
+    }
     return EXIT_SUCCESS;
 }
