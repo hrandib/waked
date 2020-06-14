@@ -2,8 +2,13 @@ import qbs
 
 Project {
 
+    references: [
+        "pc_wake_lib/wakelib.qbs"
+    ]
+
 CppApplication {
     name: "waked"
+
 
     qbs.architecture: "x86_64"
     cpp.optimization: "small"
@@ -36,6 +41,14 @@ CppApplication {
         files: [
             "*.h",
         ]
+    }
+
+    Group { name: "resource"
+        prefix: "res/"
+        files: [
+            "*",
+        ]
+        qbs.install: false
     }
 
 } //CppApplication

@@ -36,7 +36,6 @@ using std::to_string;
 using std::string;
 namespace fs = std::filesystem;
 
-
 class Config::IniChar : public inipp::Ini<char> {
     using Ini::Ini;
 };
