@@ -1,6 +1,7 @@
 #pragma once
 
 #include "option_parser.h"
+#include "wsp32.h"
 
 namespace Wk {
 
@@ -11,14 +12,14 @@ namespace Wk {
     using std::cerr;
     using std::endl;
 
-    class CliOpts : Opts::Parser, public Opts::ParsePortBaudrate
+    class CliOpts : Opts::Parser
     {
     private:
         vector<uint8_t> addressGroup_{};
         vector<uint8_t> payload_{};
         uint8_t command_{};
     public:
-        CliOpts(int argc, const char* argv[]) : Parser{argc, argv}, ParsePortBaudrate{*(Parser*)this}
+        CliOpts(size_t argc, const char* argv[]) : Parser{argc, argv}
         {
             int result;
             vector<string> keyValues;
@@ -82,8 +83,6 @@ namespace Wk {
             }
             //Print result
 #ifndef NDEBUG
-            cout << "Port: " << GetPort() << endl;
-            cout << "Baud rate: " << GetBaudRate() << endl;
             cout << "Address(es): ";
             for(auto addr : addressGroup_) {
                 cout << (size_t)addr << ' ';
@@ -99,10 +98,6 @@ namespace Wk {
             else cout << "No";
             cout << endl;
 #endif
-        }
-        virtual void PrintHelp() const override
-        {
-
         }
         void GetParams(std::vector<uint8_t>& addressGroup, Packet_t& params)
         {

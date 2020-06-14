@@ -15,7 +15,11 @@ CppApplication {
 
     qbs.architecture: "x86_64"
     cpp.optimization: "small"
-    cpp.debugInformation: true
+    cpp.debugInformation: false
+
+    cpp.defines: [
+        "NDEBUG"
+    ]
 
     cpp.includePaths: [
         "include"

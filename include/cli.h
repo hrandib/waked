@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "wsp32.h"
 #include "cli_options.h"
+#include "sleep.h"
 
 namespace Wk {
 
@@ -12,7 +12,7 @@ namespace Wk {
         constexpr static uint32_t TIMEOUT = 50;
         Packet_t params_;
         std::vector<uint8_t> addressGroup_;
-        Wake wake_;
+        Wake& wake_;
         void PrintRaw(const Packet_t& params)
         {
             using namespace std;
@@ -41,7 +41,7 @@ namespace Wk {
                 << hours << " hours " << minutes << " minutes" << endl;
         }
     public:
-        Cli(CliOpts& options) : wake_{options.GetPort(), options.GetBaudRate()}
+        Cli(Wake& wake, CliOpts& options) : wake_{wake}
         {
             options.GetParams(addressGroup_, params_);
         }
@@ -52,7 +52,7 @@ namespace Wk {
                     return true;
                 }
                 else {
-                    Sleep(TIMEOUT);
+                    sleep_ms(TIMEOUT);
                 }
             }
             std::cerr << "Port is busy (or absent)";

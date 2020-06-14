@@ -3,8 +3,7 @@
 #include <iostream>
 
 #include "serialport.h"
-#include "wsp32.h"
-
+#include "cli.h"
 
 int main(int argc, const char* argv[]) {
 //  daemonize("waked");
