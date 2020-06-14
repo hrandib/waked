@@ -31,7 +31,7 @@ CppApplication {
         "-std=c++20"
     ]
     cpp.commonCompilerFlags: [
-        "-Wall", "-Wextra", "-Wno-unused-parameter", "-Wno-unused-variable"
+        "-flto", "-Wall", "-Wextra", "-Wno-unused-parameter", "-Wno-unused-variable"
     ]
 
     Group { name: "source"

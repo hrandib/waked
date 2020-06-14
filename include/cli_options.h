@@ -19,7 +19,7 @@ namespace Wk {
         vector<uint8_t> payload_{};
         uint8_t command_{};
     public:
-        CliOpts(size_t argc, const char* argv[]) : Parser{argc, argv}
+        CliOpts(int argc, const char* argv[]) : Parser{argc, argv}
         {
             int result;
             vector<string> keyValues;
