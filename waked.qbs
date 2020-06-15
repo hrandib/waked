@@ -18,7 +18,7 @@ CppApplication {
     cpp.debugInformation: false
 
     cpp.defines: [
-        "NDEBUG"
+        "NDEBUG",
     ]
 
     cpp.includePaths: [
