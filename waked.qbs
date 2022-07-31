@@ -38,7 +38,6 @@ CppApplication {
         prefix: "src/"
         files: [
             "config.cpp",
-            "daemon.cpp",
             "main.cpp",
         ]
     }
