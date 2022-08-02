@@ -14,7 +14,7 @@ using std::vector;
 class CliOpts : Opts::Parser
 {
 private:
-    static constexpr uint8_t ADDR_MAX{127};
+    static constexpr uint8_t ADDR_MAX = 127;
     vector<uint8_t> addressGroup_{};
     vector<uint8_t> payload_{};
     uint8_t command_{};
@@ -61,25 +61,46 @@ public:
             cerr << "Command option (-c) is not set or command parameter not provided" << endl;
             exit(1);
         }
+        tie(result, keyValues) = Find("-s", 1, 1);
+        int strPayloadPos{};
+        if(result >= 0) {
+            strPayloadPos = result;
+            if(!keyValues.empty()) {
+                auto& payloadStr = keyValues[0];
+                cout << payloadStr << endl;
+                payload_.insert(payload_.end(), payloadStr.cbegin(), payloadStr.cend());
+            }
+            else {
+                cerr << "Payload string (-s) should not be empty" << endl;
+                exit(1);
+            }
+        }
         tie(result, keyValues) = FindUnsized("-d");
+        int dataPayloadPos{};
         // If -d not found
         if(result < 0) {
             // Payload (unnamed args at the tail)
             keyValues = GetTail();
+            dataPayloadPos = strPayloadPos + 1;
         }
         else if(keyValues.empty()) {
             cerr << "Payload (-d) should not be empty" << endl;
             exit(1);
         }
+        else {
+            dataPayloadPos = result;
+        }
         if(!keyValues.empty()) {
             try {
-                payload_ = ConvertToNumbers(keyValues);
+                auto payloadData = ConvertToNumbers(keyValues);
+                const auto& placeTo = strPayloadPos < dataPayloadPos ? payload_.end() : payload_.begin();
+                payload_.insert(placeTo, payloadData.cbegin(), payloadData.cend());
             }
             catch(exception& e) {
                 cerr << "Payload must contain only digits with one byte size. " << e.what() << endl;
             }
         }
-        // Print result
+// Print result
 #ifndef NDEBUG
         cout << "Address(es): ";
         for(auto addr : addressGroup_) {
