@@ -32,7 +32,7 @@ def display_time(seconds, granularity=2):
             result.append("{}{}".format(value, name))
     return ' '.join(result[:granularity])
 
-prefix = "./waked -a 127 -c 47 -d 0 -s"
+prefix = "./waked -a 0 -c 47 -d 0 -s"
 while True:
     line1 = str.format("{:.2f} {:.2f} {:.2f}", *os.getloadavg()).rjust(16)
     line2 = (display_time(get_uptime(), 4)).ljust(16)
