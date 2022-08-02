@@ -22,12 +22,12 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <string_view>
 #include <memory>
+#include <string_view>
 
 using std::string_view;
 
-constexpr string_view CONFIG_PATH = ".config/waked/conf.ini";
+constexpr string_view DEFAULT_CONFIG_PATH = ".config/waked/conf.ini";
 
 class Config
 {
@@ -36,7 +36,7 @@ private:
     std::unique_ptr<IniChar> ini_;
     const auto& getSerial();
 public:
-    Config(std::string_view configPath = CONFIG_PATH);
+    Config(std::string_view configPath = DEFAULT_CONFIG_PATH);
     std::string getTtyPath();
     uint32_t getBaudRate();
     ~Config();

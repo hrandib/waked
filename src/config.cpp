@@ -23,27 +23,28 @@
 #include "config.h"
 #include "inipp.h"
 
-#include <syslog.h>
-#include <iostream>
-#include <fstream>
-#include <pwd.h>
-#include <unistd.h>
-#include <string>
 #include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <pwd.h>
+#include <string>
+#include <syslog.h>
+#include <unistd.h>
 
 using namespace std::literals::string_literals;
-using std::to_string;
 using std::string;
+using std::to_string;
 namespace fs = std::filesystem;
 
-class Config::IniChar : public inipp::Ini<char> {
+class Config::IniChar : public inipp::Ini<char>
+{
     using Ini::Ini;
 };
 
 static fs::path getHome()
 {
     const char* homedir;
-    if ((homedir = getenv("HOME")) == nullptr) {
+    if((homedir = getenv("HOME")) == nullptr) {
         homedir = getpwuid(getuid())->pw_dir;
     }
     return homedir;
@@ -61,7 +62,7 @@ Config::Config(std::string_view configPath)
     }
     else {
         std::cerr << "Config path is empty" << std::endl;
-        //syslog(LOG_ERR, "Config path is empty");
+        // syslog(LOG_ERR, "Config path is empty");
     }
 }
 
@@ -83,6 +84,5 @@ uint32_t Config::getBaudRate()
     }
     return baud;
 }
-
 
 Config::~Config() = default;

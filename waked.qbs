@@ -7,6 +7,9 @@ Project {
     ]
 
 CppApplication {
+    files: [
+        "dispsend.py",
+    ]
     name: "waked"
 
     Depends {
