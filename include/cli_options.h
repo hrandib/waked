@@ -67,7 +67,6 @@ public:
             strPayloadPos = result;
             if(!keyValues.empty()) {
                 auto& payloadStr = keyValues[0];
-                cout << payloadStr << endl;
                 payload_.insert(payload_.end(), payloadStr.cbegin(), payloadStr.cend());
             }
             else {

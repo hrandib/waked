@@ -32,16 +32,12 @@ def display_time(seconds, granularity=2):
             result.append("{}{}".format(value, name))
     return ' '.join(result[:granularity])
 
-prefix = "./waked -a 127 -c 47"
+prefix = "./waked -a 127 -c 47 -d 0 -s"
 while True:
     line1 = str.format("{:.2f} {:.2f} {:.2f}", *os.getloadavg()).rjust(16)
     line2 = (display_time(get_uptime(), 4)).ljust(16)
 
-    out_chars = list(line1 + line2)
-    out_codes = list(map(ord, out_chars))
-    out_codes.insert(0, 0)
-    out_codes = list(map(str, out_codes))
-    result = subprocess.run(prefix.split() + out_codes, capture_output=True, text=True)
+    result = subprocess.run([*prefix.split(), line1 + line2], capture_output=True, text=True)
     time.sleep(1)
 
 
