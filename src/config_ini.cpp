@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-#include "config.h"
+#include "config_ini.h"
 #include "inipp.h"
 
 #include <filesystem>
@@ -33,26 +33,25 @@
 
 using namespace std::literals::string_literals;
 using std::string;
-using std::to_string;
 namespace fs = std::filesystem;
 
-class Config::IniChar : public inipp::Ini<char>
+class ConfigIni::IniChar : public inipp::Ini<char>
 {
     using Ini::Ini;
 };
 
 static fs::path getHome()
 {
-    const char* homedir;
+    const char* homedir{};
     if((homedir = getenv("HOME")) == nullptr) {
         homedir = getpwuid(getuid())->pw_dir;
     }
     return homedir;
 }
 
-Config::Config(std::string_view configPath)
+ConfigIni::ConfigIni(sv configPath)
 {
-    if(configPath.size()) {
+    if(!configPath.empty()) {
         ini_ = std::make_unique<IniChar>();
         std::ifstream is(getHome() / configPath);
         if(!is) {
@@ -66,23 +65,23 @@ Config::Config(std::string_view configPath)
     }
 }
 
-const auto& Config::getSerial()
+const auto& ConfigIni::getSerial()
 {
     return ini_->sections["Serial"];
 }
 
-std::string Config::getTtyPath()
+std::string ConfigIni::getTtyPath()
 {
     return getSerial().at("tty");
 }
 
-uint32_t Config::getBaudRate()
+uint32_t ConfigIni::getBaudRate()
 {
-    uint32_t baud = 9600;
+    uint32_t baud = DEFAULT_BAUDRATE;
     if(!inipp::extract(getSerial().at("baud"), baud)) {
         std::cerr << "No valid value for baud, defaults to 9600\r\n";
     }
     return baud;
 }
 
-Config::~Config() = default;
+ConfigIni::~ConfigIni() = default;

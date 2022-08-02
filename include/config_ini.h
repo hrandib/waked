@@ -19,27 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef CONFIG_INI_H
+#define CONFIG_INI_H
 
 #include <memory>
 #include <string_view>
 
-using std::string_view;
+constexpr std::string_view DEFAULT_CONFIG_PATH = ".config/waked/conf.ini";
+static constexpr uint32_t DEFAULT_BAUDRATE = 9600;
 
-constexpr string_view DEFAULT_CONFIG_PATH = ".config/waked/conf.ini";
-
-class Config
+class ConfigIni
 {
 private:
+    using sv = std::string_view;
     class IniChar;
     std::unique_ptr<IniChar> ini_;
     const auto& getSerial();
 public:
-    Config(std::string_view configPath = DEFAULT_CONFIG_PATH);
+    explicit ConfigIni(sv configPath);
     std::string getTtyPath();
     uint32_t getBaudRate();
-    ~Config();
+    ~ConfigIni();
 };
 
-#endif // CONFIG_H
+#endif // CONFIG_INI_H

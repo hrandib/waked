@@ -40,7 +40,7 @@ CppApplication {
     Group { name: "source"
         prefix: "src/"
         files: [
-            "config.cpp",
+            "config_ini.cpp",
             "main.cpp",
         ]
     }
