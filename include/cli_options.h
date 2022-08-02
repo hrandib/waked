@@ -6,7 +6,6 @@
 namespace Wk {
 
 using std::cerr;
-using std::cout;
 using std::endl;
 using std::exception;
 using std::string;
@@ -15,20 +14,21 @@ using std::vector;
 class CliOpts : Opts::Parser
 {
 private:
+    static constexpr uint8_t ADDR_MAX{127};
     vector<uint8_t> addressGroup_{};
     vector<uint8_t> payload_{};
     uint8_t command_{};
 public:
     CliOpts(int argc, const char* argv[]) : Parser{argc, argv}
     {
-        int result;
+        int result{};
         vector<string> keyValues;
         // Parse single or multi address
         tie(result, keyValues) = FindUnsized("-a");
         if(result >= 0 && !keyValues.empty()) {
             try {
                 addressGroup_ = ConvertToNumbers(keyValues);
-                if(any_of(addressGroup_.begin(), addressGroup_.end(), [](uint8_t addr) { return addr > 127; })) {
+                if(any_of(addressGroup_.begin(), addressGroup_.end(), [](uint8_t addr) { return addr > ADDR_MAX; })) {
                     cerr << "Address should be in range 0..127" << endl;
                     exit(1);
                 }
@@ -44,7 +44,7 @@ public:
         }
         // Parse Command
         tie(result, keyValues) = Find("-c", 1, 0);
-        if(result >= 0 && keyValues.size() > 0) {
+        if(result >= 0 && !keyValues.empty()) {
             try {
                 command_ = static_cast<uint8_t>(stoi(keyValues[0]));
             }
@@ -52,7 +52,7 @@ public:
                 cerr << "Command is not valid. " << e.what() << endl;
                 exit(1);
             }
-            if(command_ > 127) {
+            if(command_ > ADDR_MAX) {
                 cerr << "Command should be in range 0..127" << endl;
                 exit(1);
             }
@@ -67,11 +67,11 @@ public:
             // Payload (unnamed args at the tail)
             keyValues = GetTail();
         }
-        else if(!keyValues.size()) {
+        else if(keyValues.empty()) {
             cerr << "Payload (-d) should not be empty" << endl;
             exit(1);
         }
-        if(keyValues.size()) {
+        if(!keyValues.empty()) {
             try {
                 payload_ = ConvertToNumbers(keyValues);
             }
