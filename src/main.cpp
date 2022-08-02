@@ -1,15 +1,13 @@
-#include "config_ini.h"
-#include <iostream>
-
 #include "cli.h"
+#include "config_env.h"
 #include "serialport.h"
-#include <cstdlib>
+#include <iostream>
 
 using namespace Wk;
 
 int main(int argc, const char* argv[])
 {
-    ConfigIni config{DEFAULT_CONFIG_PATH};
+    ConfigEnv config;
     std::cout << config.getTtyPath() << " " << config.getBaudRate() << std::endl;
     SerialPort serialPort{config.getTtyPath(), config.getBaudRate()};
     Wake wake{serialPort};
